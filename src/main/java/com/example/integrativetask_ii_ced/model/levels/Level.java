@@ -27,9 +27,12 @@ public class Level implements Initializable, Runnable, Drawable {
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
         gameMap.creatingNotNavigableObstacles();
         gameMap.establishGraphMapRepresentationForMinimumPaths();
-        for (int i = 0; i < gameMap.getMapGuide().get(0).size(); i++){
-            if ( gameMap.getMapGuide().get(0).get(i).isNavigable() ){
-                HelloController.character = new Player(gameMap.getMapGuide().get(0).get(i).getPosition().getX(), gameMap.getMapGuide().get(0).get(i).getPosition().getY(), 60, 60, 20000);
+    }
+    @Override
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        for (int i = 0; i < gameMap.getMapGuide().get(0).size(); i++) {
+            if (gameMap.getMapGuide().get(0).get(i).isNavigable()){
+                HelloController.character = new Player(gameMap.getMapGuide().get(0).get(i).getPosition().getX(),gameMap.getMapGuide().get(0).get(i).getPosition().getY(), 60,60,20000);
                 break;
             }
         }
@@ -40,10 +43,6 @@ public class Level implements Initializable, Runnable, Drawable {
             int randomY = random.nextInt(720);
             enemies.add(new Enemy(randomX, randomY, 60, 60, 100));
         }
-    }
-    @Override
-    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
-
     }
 
     public void run() {

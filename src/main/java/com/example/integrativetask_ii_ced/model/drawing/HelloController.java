@@ -44,10 +44,8 @@ public class HelloController implements Initializable, Drawable{
         canvas.setOnKeyPressed(character::pressKey);
         canvas.setOnKeyReleased(character::releasedKey);
         canvas.setOnMouseMoved(this::onMouseMoved);
-        for (int i = 0; i<3; i ++){
-            levels.add(new Level());
-        }
         new Thread(character).start();
+        levels.add(new Level());
         draw(gc);
     }
 
@@ -58,14 +56,7 @@ public class HelloController implements Initializable, Drawable{
                 Platform.runLater(() -> {
                     gc.setFill(Color.WHITE);
                     gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
-                    if ( !levels.isEmpty() ){
-                        levels.get(0).draw(gc);
-                        if ( levels.get(0).isFinished() ){
-                            levels.remove(0);
-                        }
-                    } else {
-                        finalLevel.draw(gc);
-                    }
+                    levels.get(0).draw(gc);
                     character.draw(gc);
 
                 });

@@ -1,6 +1,7 @@
 package com.example.integrativetask_ii_ced.model.entities;
 
 import com.example.integrativetask_ii_ced.model.drawing.HelloController;
+import com.example.integrativetask_ii_ced.model.levels.Level;
 import com.example.integrativetask_ii_ced.model.map.MapNode;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -48,7 +49,6 @@ public class Player extends Avatar implements Runnable {
         }
     }
 
-    private double i = 0;
     @Override
     public void draw(GraphicsContext gc) {
         if ( life<1 ){
@@ -84,32 +84,51 @@ public class Player extends Avatar implements Runnable {
 
     public void movement(){
         if ( keyA ){
+            /**hitBox.refreshHitBox((position.getX()-3)-(width/2), position.getY()-(height/2), (position.getX()-3)+(width/2), position.getY()+(height/2));
+            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
+                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
             position.setX(position.getX()-3);
         }
         if ( keyW ){
+            /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-3-(height/2), position.getX()+(width/2), position.getY()-3+(height/2));
+            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
+                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
             position.setY(position.getY()-3);
         }
         if ( keyS ){
+            /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()+3-(height/2), position.getX()+(width/2), position.getY()+3+(height/2));
+            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
+                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
             position.setY(position.getY()+3);
         }
         if ( keyD ){
+            /**hitBox.refreshHitBox((position.getX()+3)-(width/2), position.getY()-(height/2), (position.getX()+3)+(width/2), position.getY()+(height/2));
+            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
+                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
             position.setX(position.getX()+3);
-        }
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
         hitBox.refreshHitBox(position.getX(), position.getY(), position.getX(), position.getY());
     }
 
+    /**
     private boolean colission() {
-        return HelloController.levels.get(0).gameMap.mapCollision(this.hitBox);
+        if (hitBox.comparePosition(HelloController.finalBoss.getHitBox())) {
+            hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
+            return true;
+        }
+        return false;
     }
-
+     */
 
 
     public void pressKey(KeyEvent event){
+        if ( life<1 ){
+            keyA = false;
+            keyW = false;
+            keyS = false;
+            keyD = false;
+            return;
+        }
         switch (event.getCode()) {
             case A -> {
                 keyA = true;
@@ -124,11 +143,16 @@ public class Player extends Avatar implements Runnable {
                 keyD = true;
             }
         }
-        movement();
     }
 
     public void  releasedKey(KeyEvent event){
-
+        if ( life<1 ){
+            keyA = false;
+            keyW = false;
+            keyS = false;
+            keyD = false;
+            return;
+        }
         switch (event.getCode()) {
             case A -> {
                 keyA = false;
