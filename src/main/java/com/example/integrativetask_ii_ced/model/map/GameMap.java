@@ -308,4 +308,11 @@ public class GameMap implements Drawable {
         this.chunkSize = chunkSize;
     }
 
+    public CopyOnWriteArrayList<MapNode> getNodeNoNavigable() {
+        return nodeNoNavigable;
+    }
+
+    public void setNodeNoNavigable(CopyOnWriteArrayList<MapNode> nodeNoNavigable) {
+        this.nodeNoNavigable = nodeNoNavigable;
+    }
 }

@@ -54,9 +54,80 @@ public class HelloController implements Initializable, Drawable{
         Thread h = new Thread(() -> {
             while (true) {
                 Platform.runLater(() -> {
+
                     gc.setFill(Color.WHITE);
                     gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
                     levels.get(0).draw(gc);
+
+
+                    // Fuera del mapa
+                    for (int i = 0; i < levels.get(0).getEnemyBullets().size(); i++) {
+                        if (levels.get(0).gameMap.mapLimit(levels.get(0).getEnemyBullets().get(i).getHitBox())){
+                            levels.get(0).getEnemyBullets().remove(i);
+                            i--;
+                        }
+                    }
+
+                    for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
+                        if (levels.get(0).gameMap.mapLimit(levels.get(0).getAvatarBullets().get(i).getHitBox())){
+                            levels.get(0).getAvatarBullets().remove(i);
+                            i--;
+                        }
+                    }
+                    // Colision con nodos no navegables
+
+                    for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
+                        for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
+                            if (levels.get(0).getAvatarBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
+                                levels.get(0).getAvatarBullets().remove(i);
+                                if (levels.get(0).getAvatarBullets().size() < 1){
+                                    i--;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < levels.get(0).getEnemyBullets().size(); i++) {
+                        for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
+                            if (levels.get(0).getEnemyBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
+                                levels.get(0).getEnemyBullets().remove(i);
+                                break;
+                            }
+                        }
+                    }
+
+
+
+                    //Daño a los enemigos
+
+
+                    for (int i = 0; i < levels.get(0).enemies.size(); i++) {
+                        for (int j = 0; j <levels.get(0).getAvatarBullets().size(); j++) {
+
+                            if (levels.get(0).enemies.get(i).getHitBox().comparePosition(levels.get(0).getAvatarBullets().get(j).getHitBox())) {
+
+                                levels.get(0).getAvatarBullets().remove(j);
+                                levels.get(0).enemies.get(i).setLife(levels.get(0).enemies.get(i).getLife() - 1);
+
+                                if (levels.get(0).enemies.get(i).getLife() <=0)levels.get(0).getEnemies().remove(i);
+                            }
+                        }
+                    }
+
+                    //Daño al avatar
+
+                    for (int i = 0; i < levels.get(0).getEnemyBullets().size(); i++) {
+
+                        if (character.getHitBox().comparePosition(levels.get(0).getEnemyBullets().get(i).getHitBox())){
+                            character.setLife(character.getLife()-1);
+                            levels.get(0).getEnemyBullets().remove(i);
+                        }
+
+                    }
+
+
+                    
                     character.draw(gc);
 
                 });

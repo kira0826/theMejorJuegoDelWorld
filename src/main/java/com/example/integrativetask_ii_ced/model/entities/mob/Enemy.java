@@ -43,6 +43,8 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
         generatePath();
 
         new Thread(this).start();
+
+        shoot();
     }
 
 
@@ -124,13 +126,29 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
     }
 
     public void shoot() {
-        double diffX = HelloController.character.getPosition().getX() - this.position.getX();
-        double diffY = HelloController.character.getPosition().getY() - this.position.getY();
-        Vector diff = new Vector(diffX, diffY);
-        diff.normalize();
-        diff.setMag(10);
-        Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
-        HelloController.levels.get(0).bullets.add(bullet);
+        Thread thread= new Thread(()->{
+
+            while(this.life> 0 ){
+
+                double diffX = HelloController.character.getPosition().getX() - this.position.getX();
+                double diffY = HelloController.character.getPosition().getY() - this.position.getY();
+                Vector diff = new Vector(diffX, diffY);
+                diff.normalize();
+                diff.setMag(7);
+                Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
+                HelloController.levels.get(0).getEnemyBullets().add(bullet);
+                try {
+                    Thread.sleep(4000);
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+        });
+        thread.start();
+
     }
 
     public Random getRandom() {

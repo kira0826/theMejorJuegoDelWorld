@@ -20,6 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Level implements Initializable, Runnable, Drawable {
     public CopyOnWriteArrayList<Bullet> bullets = new CopyOnWriteArrayList<>();
+
+    private CopyOnWriteArrayList<Bullet> enemyBullets = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Bullet> avatarBullets = new CopyOnWriteArrayList<>();
+
     public GameMap gameMap = new GameMap(1200,720, 80,3);
     public boolean isFinished = false;
     public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
@@ -71,8 +75,11 @@ public class Level implements Initializable, Runnable, Drawable {
     @Override
     public void draw(GraphicsContext gc){
 
-        for (int i = 0; i < bullets.size(); i++){
-            bullets.get(i).draw(gc);
+        for (int i = 0; i < getEnemyBullets().size(); i++){
+            getEnemyBullets().get(i).draw(gc);
+        }
+        for (int i = 0; i < getAvatarBullets().size(); i++){
+            getAvatarBullets().get(i).draw(gc);
         }
         for (int i = 0; i < gameMap.getMapGuide().size(); i++){
             for (int j = 0; j < gameMap.getMapGuide().get(i).size(); j++){
@@ -133,5 +140,45 @@ public class Level implements Initializable, Runnable, Drawable {
 
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    public CopyOnWriteArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(CopyOnWriteArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
+    public Gun[] getWeapons() {
+        return weapons;
+    }
+
+    public void setWeapons(Gun[] weapons) {
+        this.weapons = weapons;
+    }
+
+    public CopyOnWriteArrayList<Bullet> getEnemyBullets() {
+        return enemyBullets;
+    }
+
+    public void setEnemyBullets(CopyOnWriteArrayList<Bullet> enemyBullets) {
+        this.enemyBullets = enemyBullets;
+    }
+
+    public CopyOnWriteArrayList<Bullet> getAvatarBullets() {
+        return avatarBullets;
+    }
+
+    public void setAvatarBullets(CopyOnWriteArrayList<Bullet> avatarBullets) {
+        this.avatarBullets = avatarBullets;
     }
 }

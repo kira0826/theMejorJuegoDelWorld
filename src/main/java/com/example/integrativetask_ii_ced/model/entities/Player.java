@@ -230,7 +230,7 @@ public class Player extends Avatar implements Runnable {
                 diff.setMag(10);
                 Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
                 gun.shoot();
-                HelloController.levels.get(0).bullets.add(bullet);
+                HelloController.levels.get(0).getAvatarBullets().add(bullet);
             }
         }
     }
