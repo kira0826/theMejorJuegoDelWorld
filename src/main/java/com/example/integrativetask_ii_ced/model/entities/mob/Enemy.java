@@ -5,12 +5,15 @@ import com.example.integrativetask_ii_ced.model.drawing.Vector;
 import com.example.integrativetask_ii_ced.model.entities.Avatar;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.Bullet;
 import com.example.integrativetask_ii_ced.model.levels.Level;
+import javafx.fxml.Initializable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.net.URL;
 import java.util.Random;
+import java.util.ResourceBundle;
 
-public  class Enemy extends Avatar {
+public  class Enemy extends Avatar implements Runnable, Initializable {
 
     public TypeEnemy typeEnemy;
     public Enemy(double x, double y, double width, double height, double life){
@@ -23,9 +26,18 @@ public  class Enemy extends Avatar {
 
     @Override
     public void draw(GraphicsContext gc) {
+        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run1.png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
+    }
+
+    @Override
+    public void run() {
         position.setX(position.getX() + Math.cos(position.getX()));
         position.setY(position.getY() + Math.sin(position.getY()));
-        gc.strokeRect(position.getX() - (width / 2), position.getY() - (height/2), width, height);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        new Thread(this).start();
     }
 
     public void shoot() {
