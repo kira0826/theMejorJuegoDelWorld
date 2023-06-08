@@ -30,6 +30,7 @@ public class HelloController implements Initializable, Drawable{
     private Canvas canvas;
 
     public GraphicsContext gc;
+    private int counterlvls =0;
     public static Player character = new Player(0,0, 60,60,3);
     public static ArrayList<Level> levels = new ArrayList<>();
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
@@ -41,6 +42,7 @@ public class HelloController implements Initializable, Drawable{
         canvas.setFocusTraversable(true);
         levels.add(new Level());
         levels.get(0).generateEnemies();
+        counterlvls++;
         canvas.setOnKeyPressed(character::pressKey);
         canvas.setOnKeyReleased(character::releasedKey);
         canvas.setOnMouseMoved(this::onMouseMoved);
@@ -60,6 +62,7 @@ public class HelloController implements Initializable, Drawable{
                     levels.get(0).draw(gc);
 
 
+
                     // Fuera del mapa
                     for (int i = 0; i < levels.get(0).getEnemyBullets().size(); i++) {
                         if (levels.get(0).gameMap.mapLimit(levels.get(0).getEnemyBullets().get(i).getHitBox())){
@@ -74,8 +77,16 @@ public class HelloController implements Initializable, Drawable{
                             i--;
                         }
                     }
+                    if ( levels.get(0).isFinished ){
+                        if (counterlvls > 3 ){
+                            //win
+                        } else {
+                            levels.set(0, new Level());
+                            levels.get(0).generateEnemies();
+                            counterlvls++;
+                        }
+                    }
                     // Colision con nodos no navegables
-
                     for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
                         for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
                             if (levels.get(0).getAvatarBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
@@ -148,6 +159,8 @@ public class HelloController implements Initializable, Drawable{
                 relativePosition > 0
         );
     }
+
+
 
     public Canvas getCanvas() {
         return canvas;

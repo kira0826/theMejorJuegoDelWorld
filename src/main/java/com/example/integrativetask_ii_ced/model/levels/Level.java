@@ -29,6 +29,7 @@ public class Level implements Initializable, Runnable, Drawable {
     public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
     private Random random = new Random();
     private Gun[] weapons = new Gun[2];
+    private PressurePlate pressurePlate = null;
 
     public Level(){
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
@@ -61,6 +62,7 @@ public class Level implements Initializable, Runnable, Drawable {
                 }
             }
         }
+        new Thread(this).start();
 
     }
     @Override
@@ -70,6 +72,39 @@ public class Level implements Initializable, Runnable, Drawable {
 
     public void run() {
         while (true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(enemies.size());
+            if(enemies.size() == 0){
+                if ( pressurePlate == null){
+                    int counter = 0;
+                    int positionY = 0;
+                    int positionX = 0;
+
+                    while (counter <= 1) {
+                        while (true) {
+
+                            positionY = (int) Math.floor(random.nextInt(720) / gameMap.getNodeSize());
+                            positionX = (int) Math.floor(random.nextInt(1200) / gameMap.getNodeSize());
+
+                            if ( gameMap.getMapGuide().get(positionY).get(positionX).isNavigable() ){
+                                pressurePlate = new PressurePlate(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(), gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY());
+                                counter++;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else {
+                    if ( pressurePlate.isPressed(HelloController.character)){
+                        isFinished = true;
+                        break;
+                    }
+                }
+            }
         }
     }
     @Override
@@ -92,6 +127,9 @@ public class Level implements Initializable, Runnable, Drawable {
 
         for (int i = 0; i < weapons.length; i++) {
             weapons[i].draw(gc);
+        }
+        if ( pressurePlate != null){
+            pressurePlate.draw(gc);
         }
     }
 
@@ -180,5 +218,13 @@ public class Level implements Initializable, Runnable, Drawable {
 
     public void setAvatarBullets(CopyOnWriteArrayList<Bullet> avatarBullets) {
         this.avatarBullets = avatarBullets;
+    }
+
+    public PressurePlate getPressurePlate() {
+        return pressurePlate;
+    }
+
+    public void setPressurePlate(PressurePlate pressurePlate) {
+        this.pressurePlate = pressurePlate;
     }
 }

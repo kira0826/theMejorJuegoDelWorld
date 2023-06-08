@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-public  class Enemy extends Avatar implements Runnable, Initializable {
+public  class Enemy extends Avatar implements Runnable {
     private Random random = new Random();
 
     private Stack<Coordinate> path;
@@ -28,6 +28,9 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
     private PathType pathType;
 
     public TypeEnemy typeEnemy;
+    private int frame = 0;
+
+    private Image[] idle;
     public Enemy(double x, double y, double width, double height, double life){
         super(x, y, width, height, life);
 
@@ -39,11 +42,13 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
         else pathType = PathType.BFS;
 
         typeEnemy = TypeEnemy.values()[random.nextInt(TypeEnemy.values().length)];
-
         generatePath();
-
         new Thread(this).start();
-
+        idle = new Image[6];
+        for(int i=1 ; i<=6 ; i++) {
+            String uri = "file:src/main/resources/images/Enemy/pistol/player-run-shoott"+i+".png";
+            idle[i-1] = new Image(uri);
+        }
         shoot();
     }
 
@@ -53,40 +58,20 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
         position.setX(position.getX() + direction.getX());
         position.setY(position.getY() + direction.getY());
         hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
-        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run1.png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
+        gc.drawImage(idle[frame],position.getX() - (width / 2), position.getY() - (height/2), width, height);
+
     }
 
 
     @Override
     public void run() {
-
+        threadfake();
         while(this.life> 0 ){
 
-            if (!path.isEmpty()){
-
-                Coordinate coordinate = path.peek();
-                double pitagoras =
-                        Math.sqrt(Math.pow(position.getX() - coordinate.getX(), 2) +
-                                Math.pow(position.getY() - coordinate.getY(), 2));
-                if (pitagoras < 6) {
-                    path.pop();
-                    if (!path.isEmpty()) {
-                        coordinate = path.peek();
-                        double diffX = coordinate.getX() - this.position.getX();
-                        double diffY = coordinate.getY() - this.position.getY();
-                        Vector diff = new Vector(diffX, diffY);
-                        diff.normalize();
-                        diff.setMag(speed);
-                        this.direction = diff;
-                    }
-                }
-
-            }else {
-                generatePath();
-            }
+            frame = (frame + 1) % 6;
 
             try {
-                Thread.sleep(2);
+                Thread.sleep(100);
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -95,9 +80,42 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void threadfake(){
+        Thread x = new Thread(()->{
+            while (this.life>0) {
+                if ( !path.isEmpty() ){
+
+                    Coordinate coordinate = path.peek();
+                    double pitagoras =
+                            Math.sqrt(Math.pow(position.getX() - coordinate.getX(), 2) +
+                                    Math.pow(position.getY() - coordinate.getY(), 2));
+                    if ( pitagoras < 6 ){
+                        path.pop();
+                        if ( !path.isEmpty() ){
+                            coordinate = path.peek();
+                            double diffX = coordinate.getX() - this.position.getX();
+                            double diffY = coordinate.getY() - this.position.getY();
+                            Vector diff = new Vector(diffX, diffY);
+                            diff.normalize();
+                            diff.setMag(speed);
+                            this.direction = diff;
+                        }
+                    }
+                } else {
+                    generatePath();
+                }
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        x.start();
     }
+
+
+
 
     private void generatePath(){
 
@@ -129,6 +147,12 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
         Thread thread= new Thread(()->{
 
             while(this.life> 0 ){
+                try {
+                    Thread.sleep(3000);
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
                 double diffX = HelloController.character.getPosition().getX() - this.position.getX();
                 double diffY = HelloController.character.getPosition().getY() - this.position.getY();
@@ -137,12 +161,7 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
                 diff.setMag(7);
                 Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
                 HelloController.levels.get(0).getEnemyBullets().add(bullet);
-                try {
-                    Thread.sleep(4000);
 
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
             }
 
 
