@@ -46,17 +46,6 @@ public class Boss extends Avatar implements Runnable{
         }
     }
 
-    /**
-    public void shoot() {
-        double diffX = HelloController.character.getPosition().getX() - this.position.getX();
-        double diffY = HelloController.character.getPosition().getY() - this.position.getY();
-        Vector diff = new Vector(diffX, diffY);
-        diff.normalize();
-        diff.setMag(10);
-        Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
-        HelloController.bullets.add(bullet);
-    }
-     */
 
     public void died() {
         uri = "file:src/main/resources/images/FinalBoss/BossDied.png";
