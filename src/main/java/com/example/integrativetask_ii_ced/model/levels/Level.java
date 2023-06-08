@@ -38,25 +38,6 @@ public class Level implements Initializable, Runnable, Drawable {
             }
         }
 
-<<<<<<< HEAD
-=======
-        int counter  = 0;
-        int positionY = 0;
-        int positionX = 0;
-
-        while (counter <= 7){
-            while(true){
-
-                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
-                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
-
-                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
-                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
-                    counter++;
-                    break;
-                }
-            }
-        }
 
         int counter1  = 0;
         int positionY1 = 0;
@@ -65,18 +46,17 @@ public class Level implements Initializable, Runnable, Drawable {
         while (counter1 <= 1){
             while(true){
 
-                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
-                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
+                positionY1 = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
+                positionX1 = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
 
-                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
-                    weapons[counter1] = new Gun(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(),80,80, TypeGun.values()[counter1]);
+                if (gameMap.getMapGuide().get(positionY1).get(positionX1).isNavigable()){
+                    weapons[counter1] = new Gun(gameMap.getMapGuide().get(positionY1).get(positionX1).getPosition().getX(),gameMap.getMapGuide().get(positionY1).get(positionX1).getPosition().getY(),80,80, TypeGun.values()[counter1]);
                     counter1++;
                     break;
                 }
             }
         }
 
->>>>>>> sebas
     }
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
@@ -120,7 +100,7 @@ public class Level implements Initializable, Runnable, Drawable {
                 positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
 
                 if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
-                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
+                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 3));
                     counter++;
                     break;
                 }

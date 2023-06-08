@@ -47,7 +47,12 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
     public void run() {
 
         while(this.life> 0 ){
-
+            for (int i = 0; i < HelloController.levels.get(0).bullets.size(); i++) {
+                if (this.hitBox.comparePosition(HelloController.levels.get(0).bullets.get(i).getHitBox())) {
+                    this.life -= 1;
+                    HelloController.levels.get(0).bullets.remove(i);
+                }
+            }
             if (!path.isEmpty()){
 
                 Coordinate coordinate = path.peek();
@@ -72,7 +77,7 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
             }
 
             try {
-                Thread.sleep(16);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

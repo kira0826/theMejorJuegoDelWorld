@@ -32,7 +32,6 @@ public class HelloController implements Initializable, Drawable{
     public GraphicsContext gc;
     public static Player character = new Player(0,0, 60,60,20000);
     public static ArrayList<Level> levels = new ArrayList<>();
-    private Level finalLevel = new Level();
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
 
     @Override
