@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="IntegrativeTask_II_CED" />
+        <module name="theMejorJuegoDelWorld" />
         <module name="IntegrativeTask_III_APO" />
       </profile>
     </annotationProcessing>
