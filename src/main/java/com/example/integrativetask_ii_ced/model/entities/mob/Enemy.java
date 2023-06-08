@@ -19,24 +19,32 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
     public Enemy(double x, double y, double width, double height, double life){
         super(x, y, width, height, life);
         typeEnemy = TypeEnemy.values()[random.nextInt(TypeEnemy.values().length)];
+        new Thread(this).start();
 
     }
 
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run"+random.nextInt(3)+".png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
+        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run1.png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
     }
+
 
     @Override
     public void run() {
-        position.setX(position.getX() + Math.cos(position.getX()));
-        position.setY(position.getY() + Math.sin(position.getY()));
+        while (true) {
+            position.setX(random.nextInt(500) + Math.cos(position.getX()) * 2);
+            position.setY(random.nextInt(500) + Math.sin(position.getY()) * 2);
+            try {
+                Thread.sleep(80);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        new Thread(this).start();
     }
 
     public void shoot() {

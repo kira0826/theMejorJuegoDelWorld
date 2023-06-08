@@ -21,28 +21,28 @@ public class Level implements Initializable, Runnable, Drawable {
     public GameMap gameMap = new GameMap(1200,720, 80,3);
     public boolean isFinished = false;
     public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
+    private Random random = new Random();
     
 
     public Level(){
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
         gameMap.creatingNotNavigableObstacles();
         gameMap.establishGraphMapRepresentationForMinimumPaths();
-    }
-    @Override
-    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
         for (int i = 0; i < gameMap.getMapGuide().get(0).size(); i++) {
             if (gameMap.getMapGuide().get(0).get(i).isNavigable()){
-                HelloController.character = new Player(gameMap.getMapGuide().get(0).get(i).getPosition().getX(),gameMap.getMapGuide().get(0).get(i).getPosition().getY(), 60,60,20000);
+                HelloController.character.getPosition().setX(gameMap.getMapGuide().get(0).get(i).getPosition().getX());
+                HelloController.character.getPosition().setY(gameMap.getMapGuide().get(0).get(i).getPosition().getY());
                 break;
             }
         }
-        Random random = new Random();
-        int amountEnemy = random.nextInt(20);
-        for (int i = 0; i < amountEnemy; i++){
-            int randomX = random.nextInt(1200);
-            int randomY = random.nextInt(720);
-            enemies.add(new Enemy(randomX, randomY, 60, 60, 100));
+        for (int i = 0; i< 10; i++){
+            enemies.add(new Enemy(500+random.nextInt(200), 500+random.nextInt(200), 60, 60, 20000));
         }
+
+    }
+    @Override
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+
     }
 
     public void run() {
@@ -63,7 +63,6 @@ public class Level implements Initializable, Runnable, Drawable {
         for (int i = 0; i < enemies.size(); i++){
             enemies.get(i).draw(gc);
         }
-
     }
 
 

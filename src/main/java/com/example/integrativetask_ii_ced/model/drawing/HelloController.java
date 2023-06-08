@@ -41,11 +41,11 @@ public class HelloController implements Initializable, Drawable{
         canvas.setCursor(customCursor);
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
+        levels.add(new Level());
         canvas.setOnKeyPressed(character::pressKey);
         canvas.setOnKeyReleased(character::releasedKey);
         canvas.setOnMouseMoved(this::onMouseMoved);
         new Thread(character).start();
-        levels.add(new Level());
         draw(gc);
     }
 
