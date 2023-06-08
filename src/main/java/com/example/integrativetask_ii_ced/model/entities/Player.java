@@ -2,6 +2,7 @@ package com.example.integrativetask_ii_ced.model.entities;
 
 import com.example.integrativetask_ii_ced.model.drawing.HelloController;
 import com.example.integrativetask_ii_ced.model.drawing.Vector;
+import com.example.integrativetask_ii_ced.model.entities.gun.Gun;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.Bullet;
 import com.example.integrativetask_ii_ced.model.levels.Level;
 import com.example.integrativetask_ii_ced.model.map.MapNode;
@@ -29,6 +30,8 @@ public class Player extends Avatar implements Runnable {
     private boolean isShooting = false;
 
     private MapNode mapNodeAssociated;
+
+    private Gun gun;
     public void setFacingRight(boolean facingRight) {
         isFacingRight = facingRight;
     }
@@ -180,12 +183,25 @@ public class Player extends Avatar implements Runnable {
     }
 
     public void shoot(MouseEvent event){
-        double diffX = event.getX() - HelloController.character.getPosition().getX();
-        double diffY = event.getY() - HelloController.character.getPosition().getY();
-        Vector diff = new Vector(diffX, diffY);
-        diff.normalize();
-        diff.setMag(10);
-        Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
-        HelloController.levels.get(0).bullets.add(bullet);
+        if(gun!=null ){
+            if ( gun.isCouldShoot() ){
+                double diffX = event.getX() - HelloController.character.getPosition().getX();
+                double diffY = event.getY() - HelloController.character.getPosition().getY();
+                Vector diff = new Vector(diffX, diffY);
+                diff.normalize();
+                diff.setMag(10);
+                Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
+                gun.shoot();
+                HelloController.levels.get(0).bullets.add(bullet);
+            }
+        }
+    }
+
+    public Gun getGun() {
+        return gun;
+    }
+
+    public void setGun(Gun gun) {
+        this.gun = gun;
     }
 }
