@@ -35,24 +35,6 @@ public class Level implements Initializable, Runnable, Drawable {
             }
         }
 
-        int counter  = 0;
-        int positionY = 0;
-        int positionX = 0;
-
-        while (counter <= 7){
-            while(true){
-
-                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
-                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
-
-                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
-                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
-                    counter++;
-                    break;
-                }
-            }
-        }
-
     }
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
@@ -76,6 +58,27 @@ public class Level implements Initializable, Runnable, Drawable {
         }
         for (int i = 0; i < enemies.size(); i++){
             enemies.get(i).draw(gc);
+        }
+    }
+
+    public void generateEnemies(){
+
+        int counter  = 0;
+        int positionY = 0;
+        int positionX = 0;
+
+        while (counter <= 7){
+            while(true){
+
+                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
+                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
+
+                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
+                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
+                    counter++;
+                    break;
+                }
+            }
         }
     }
 
