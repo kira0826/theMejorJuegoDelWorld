@@ -39,6 +39,7 @@ public class Level implements Initializable, Runnable, Drawable {
         }
 
 
+
         int counter1  = 0;
         int positionY1 = 0;
         int positionX1 = 0;
