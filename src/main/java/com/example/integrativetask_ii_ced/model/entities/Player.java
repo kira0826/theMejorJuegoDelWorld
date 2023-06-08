@@ -87,25 +87,25 @@ public class Player extends Avatar implements Runnable {
             /**hitBox.refreshHitBox((position.getX()-3)-(width/2), position.getY()-(height/2), (position.getX()-3)+(width/2), position.getY()+(height/2));
             if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
                     || HelloController.getGameMap().mapLimit(hitBox)) return;*/
-            position.setX(position.getX()-3);
+            position.setX(position.getX()-4);
         }
         if ( keyW ){
             /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-3-(height/2), position.getX()+(width/2), position.getY()-3+(height/2));
             if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
                     || HelloController.getGameMap().mapLimit(hitBox)) return;*/
-            position.setY(position.getY()-3);
+            position.setY(position.getY()-4);
         }
         if ( keyS ){
             /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()+3-(height/2), position.getX()+(width/2), position.getY()+3+(height/2));
             if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
                     || HelloController.getGameMap().mapLimit(hitBox)) return;*/
-            position.setY(position.getY()+3);
+            position.setY(position.getY()+4);
         }
         if ( keyD ){
             /**hitBox.refreshHitBox((position.getX()+3)-(width/2), position.getY()-(height/2), (position.getX()+3)+(width/2), position.getY()+(height/2));
             if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
                     || HelloController.getGameMap().mapLimit(hitBox)) return;*/
-            position.setX(position.getX()+3);
+            position.setX(position.getX()+4);
         }
         hitBox.refreshHitBox(position.getX(), position.getY(), position.getX(), position.getY());
     }
