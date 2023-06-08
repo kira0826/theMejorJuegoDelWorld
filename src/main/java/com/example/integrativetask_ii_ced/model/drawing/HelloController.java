@@ -1,5 +1,6 @@
 package com.example.integrativetask_ii_ced.model.drawing;
 
+import com.example.integrativetask_ii_ced.HelloApplication;
 import com.example.integrativetask_ii_ced.model.entities.*;
 import com.example.integrativetask_ii_ced.model.entities.mob.Boss;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.MobilePump;
@@ -17,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,19 +26,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HelloController implements Initializable, Drawable{
 
-    private final Image image = new Image("file:src /main/resources/images/background.jpg");
+    private final Image image = new Image("file:src/main/resources/images/background.jpg");
 
     @FXML
     private Canvas canvas;
 
     public GraphicsContext gc;
-    private int counterlvls = 1;
-    public static Player character = new Player(0,0, 60,60,3);
-    public static ArrayList<Level> levels = new ArrayList<>();
+    private int counterlvls;
+    public static Player character;
+    public static ArrayList<Level> levels;
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
 
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        counterlvls = 1;
+        levels = new ArrayList<>();
+        character = new Player(0,0, 60,60,3);
         canvas.setCursor(customCursor);
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
@@ -51,10 +56,12 @@ public class HelloController implements Initializable, Drawable{
         draw(gc);
     }
 
+    private boolean flag = true;
     @Override
     public void draw(GraphicsContext gc) {
         Thread h = new Thread(() -> {
-            while (true) {
+
+            while (character.getLife() >0 && flag) {
                 Platform.runLater(() -> {
 
                     gc.setFill(Color.WHITE);
@@ -79,7 +86,10 @@ public class HelloController implements Initializable, Drawable{
                     }
                     if ( levels.get(0).isFinished ){
                         if (counterlvls > 3 ){
-                            //win
+                            flag = false;
+                            Stage stage = (Stage) canvas.getScene().getWindow();
+                            stage.close();
+                            HelloApplication.openWindow("exitScreen.fxml");
                         } else {
                             levels.set(0, new Level("back"+counterlvls));
                             levels.get(0).generateEnemies();
@@ -90,18 +100,6 @@ public class HelloController implements Initializable, Drawable{
                     for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
                         for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
                             if (levels.get(0).getAvatarBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
-
-                                if (levels.get(0).getGameMap().getNodeNoNavigable().get(j).isDestructible()){
-                                    levels.get(0).getGameMap().getNodeNoNavigable().get(j).setLife(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getLife() -1);
-
-                                    if (levels.get(0).getGameMap().getNodeNoNavigable().get(j).getLife() <= 0 ){
-                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setDestructible(false);
-                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setNavigable(true);
-                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setDesign(null);
-                                        levels.get(0).getGameMap().establishGraphMapRepresentationForMinimumPaths();
-                                        levels.get(0).getGameMap().getNodeNoNavigable().remove(j);
-                                    }
-                                }
                                 levels.get(0).getAvatarBullets().remove(i);
                                 if (levels.get(0).getAvatarBullets().size() < 1){
                                     i--;
@@ -149,8 +147,14 @@ public class HelloController implements Initializable, Drawable{
 
                     }
 
-                    character.draw(gc);
 
+
+                    character.draw(gc);
+                    if (character.getLife() <= 0){
+                        Stage stage = (Stage) canvas.getScene().getWindow();
+                        stage.close();
+                        HelloApplication.openWindow("exitScreen.fxml");
+                    }
                 });
                 character.movement();
                 try {

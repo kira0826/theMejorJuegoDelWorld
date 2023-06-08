@@ -151,14 +151,14 @@ public  class Enemy extends Avatar implements Runnable {
 
     public void shoot() {
         Thread thread= new Thread(()->{
+            try {
+                Thread.sleep(3000);
 
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             while(this.life> 0 ){
-                try {
-                    Thread.sleep(3000);
 
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
 
                 double diffX = HelloController.character.getPosition().getX() - this.position.getX();
                 double diffY = HelloController.character.getPosition().getY() - this.position.getY();
@@ -167,7 +167,12 @@ public  class Enemy extends Avatar implements Runnable {
                 diff.setMag(7);
                 Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
                 HelloController.levels.get(0).getEnemyBullets().add(bullet);
+                try {
+                    Thread.sleep(3500);
 
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
 

@@ -77,7 +77,6 @@ public class Player extends Avatar implements Runnable {
     @Override
     public void draw(GraphicsContext gc) {
         if ( life<1 ){
-            gc.drawImage(died[frame], isFacingRight ? position.getX() - (width / 2) : position.getX() + (width / 2), position.getY() - (width / 2), isFacingRight ? width : -width, height);
             return;
         }
         hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
