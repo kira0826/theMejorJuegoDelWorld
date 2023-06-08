@@ -105,9 +105,10 @@ public class Player extends Avatar implements Runnable {
 
         //Draw gun
         if ( gun != null ){
-
+            gc.setFill(Color.BLUE);
+            gc.fillRect(50, 10, 80, 70);
             gc.drawImage(new Image("file:src/main/resources/images/Character/gun/"+gun.getTypeGun()+".png"), 60, 10, 50,50);
-            gc.setFill(Color.BLACK);
+            gc.setFill(Color.WHITE);
             gc.fillText((gun.getAvailableAmmo()>0?"Ammo : "+gun.getAvailableAmmo(): "Reloading..."), 60, 70);
         }
     }
