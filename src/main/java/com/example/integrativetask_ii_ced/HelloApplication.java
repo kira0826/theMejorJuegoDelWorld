@@ -14,12 +14,6 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
-
-        System.out.println("Resolución de pantalla: " + screenWidth + "x" + screenHeight);
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
@@ -27,6 +21,7 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
+    
     public static void main(String[] args) {
         launch();
     }

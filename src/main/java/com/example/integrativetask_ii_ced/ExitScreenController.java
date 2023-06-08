@@ -14,12 +14,11 @@ public class ExitScreenController {
 
     @FXML
     public void exit(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @FXML
     public void play(ActionEvent event) {
-
     }
 
 }
