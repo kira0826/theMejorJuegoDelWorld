@@ -29,6 +29,9 @@ public  class Enemy extends Avatar implements Runnable {
 
     public TypeEnemy typeEnemy;
     private int frame = 0;
+    private boolean isFacingRight = true;
+
+
 
     private Image[] idle;
     public Enemy(double x, double y, double width, double height, double life){
@@ -58,7 +61,7 @@ public  class Enemy extends Avatar implements Runnable {
         position.setX(position.getX() + direction.getX());
         position.setY(position.getY() + direction.getY());
         hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
-        gc.drawImage(idle[frame],position.getX() - (width / 2), position.getY() - (height/2), width, height);
+        gc.drawImage(idle[frame],isFacingRight ? position.getX() - (width / 2) : position.getX() + (width / 2), position.getY() - (height/2), isFacingRight ? width : -width, height);
 
     }
 
@@ -69,6 +72,9 @@ public  class Enemy extends Avatar implements Runnable {
         while(this.life> 0 ){
 
             frame = (frame + 1) % 6;
+
+            double relativePosition = HelloController.character.getPosition().getX()-position.getX();
+            isFacingRight = relativePosition > 0;
 
             try {
                 Thread.sleep(100);
