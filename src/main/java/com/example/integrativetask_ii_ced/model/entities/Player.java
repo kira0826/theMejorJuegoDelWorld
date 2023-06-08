@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 
 public class Player extends Avatar implements Runnable {
@@ -100,6 +101,15 @@ public class Player extends Avatar implements Runnable {
             gc.drawImage(viewLife[1], 1050, 10, 70, 70);
             gc.drawImage(viewLife[1], 960, 10, 70, 70);
             gc.drawImage(viewLife[1], 870, 10, 70, 70);
+        }
+
+        //Draw gun
+        if ( gun != null ){
+            gc.setFill(Color.BLUE);
+            gc.fillRect(50, 10, 80, 70);
+            gc.drawImage(new Image("file:src/main/resources/images/Character/gun/"+gun.getTypeGun()+".png"), 60, 10, 50,50);
+            gc.setFill(Color.WHITE);
+            gc.fillText((gun.getAvailableAmmo()>0?"Ammo : "+gun.getAvailableAmmo(): "Reloading..."), 60, 70);
         }
     }
 
