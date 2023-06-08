@@ -15,9 +15,10 @@ public class MapNode extends Obstacle implements Drawable , Runnable{
     private  Boolean isDestructable;
 
 
-    public MapNode(double x, double y, boolean navigable) {
+    public MapNode(double x, double y, boolean navigable, boolean isDestructable) {
         super(x, y);
         this.navigable = navigable;
+        this.isDestructable = isDestructable;
     }
 
     public MapNode(double x, double y) {
@@ -59,6 +60,7 @@ public class MapNode extends Obstacle implements Drawable , Runnable{
                     if (HelloController.levels.get(0).getBullets().get(i).getHitBox().comparePosition(this.hitBox)){
                         HelloController.levels.get(0).getBullets().remove(i);
                         setNavigable(true);
+                        break;
                     }
                 }
             }
