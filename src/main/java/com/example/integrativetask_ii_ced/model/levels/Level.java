@@ -35,6 +35,7 @@ public class Level implements Initializable, Runnable, Drawable {
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
         gameMap.creatingNotNavigableObstacles();
         gameMap.establishGraphMapRepresentationForMinimumPaths();
+        gameMap.assignDestructibleBoxes();
         for (int i = 0; i < gameMap.getMapGuide().get(0).size(); i++) {
             if (gameMap.getMapGuide().get(0).get(i).isNavigable()){
                 HelloController.character.getPosition().setX(gameMap.getMapGuide().get(0).get(i).getPosition().getX());
@@ -139,7 +140,7 @@ public class Level implements Initializable, Runnable, Drawable {
         int positionY = 0;
         int positionX = 0;
 
-        while (counter <= 7){
+        while (counter <= 1){
             while(true){
 
                 positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());

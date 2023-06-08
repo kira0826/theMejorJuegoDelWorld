@@ -7,6 +7,7 @@ import com.example.integrativetask_ii_ced.model.drawing.HitBox;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.PressurePlate;
 import com.example.integrativetask_ii_ced.structure.graph.AdjencyListGraph;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -113,6 +114,26 @@ public class GameMap implements Drawable {
 
         return graph.bfsForOneNode(from, to);
 
+    }
+
+    public void assignDestructibleBoxes(){
+        Random random = new Random();
+        int quantity = (getNodeNoNavigable().size()-1) / 2;
+
+        while(quantity>0){
+
+            while(true){
+                int position = random.nextInt(0,getNodeNoNavigable().size());
+
+                if (!getNodeNoNavigable().get(position).isDestructible()){
+                    getNodeNoNavigable().get(position).setDestructible(true);
+                    getNodeNoNavigable().get(position).setLife(4);
+                    getNodeNoNavigable().get(position).setDesign(new Image("file:src/main/resources/images/img.png"));
+                    quantity--;
+                    break;
+                }
+            }
+        }
     }
 
     public Stack<Coordinate> shortestPathUsingListAdjacencyDFS(Coordinate from, Coordinate to){
@@ -224,8 +245,6 @@ public class GameMap implements Drawable {
                 }
             }
         }
-
-
 
 
     public boolean mapCollision(HitBox hitBox){

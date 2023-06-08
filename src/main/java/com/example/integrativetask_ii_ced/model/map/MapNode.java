@@ -10,11 +10,14 @@ public class MapNode extends Obstacle implements Drawable {
 
     boolean navigable;
     private Image design;
+    private boolean destructible;
+    private int life;
 
 
     public MapNode(double x, double y, boolean navigable) {
         super(x, y);
         this.navigable = navigable;
+        this.destructible = false;
         design = new Image("file:src/main/resources/images/Cajita.png");
     }
 
@@ -47,5 +50,21 @@ public class MapNode extends Obstacle implements Drawable {
 
     public void setDesign(Image design) {
         this.design = design;
+    }
+
+    public boolean isDestructible() {
+        return destructible;
+    }
+
+    public void setDestructible(boolean destructible) {
+        this.destructible = destructible;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 }

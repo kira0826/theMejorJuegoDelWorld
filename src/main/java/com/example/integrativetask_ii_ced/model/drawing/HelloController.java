@@ -90,6 +90,18 @@ public class HelloController implements Initializable, Drawable{
                     for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
                         for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
                             if (levels.get(0).getAvatarBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
+
+                                if (levels.get(0).getGameMap().getNodeNoNavigable().get(j).isDestructible()){
+                                    levels.get(0).getGameMap().getNodeNoNavigable().get(j).setLife(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getLife() -1);
+
+                                    if (levels.get(0).getGameMap().getNodeNoNavigable().get(j).getLife() <= 0 ){
+                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setDestructible(false);
+                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setNavigable(true);
+                                        levels.get(0).getGameMap().getNodeNoNavigable().get(j).setDesign(null);
+                                        levels.get(0).getGameMap().establishGraphMapRepresentationForMinimumPaths();
+                                        levels.get(0).getGameMap().getNodeNoNavigable().remove(j);
+                                    }
+                                }
                                 levels.get(0).getAvatarBullets().remove(i);
                                 if (levels.get(0).getAvatarBullets().size() < 1){
                                     i--;
@@ -137,8 +149,6 @@ public class HelloController implements Initializable, Drawable{
 
                     }
 
-
-                    
                     character.draw(gc);
 
                 });
