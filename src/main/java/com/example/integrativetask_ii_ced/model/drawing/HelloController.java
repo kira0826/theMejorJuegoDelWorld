@@ -45,6 +45,7 @@ public class HelloController implements Initializable, Drawable{
         canvas.setOnKeyPressed(character::pressKey);
         canvas.setOnKeyReleased(character::releasedKey);
         canvas.setOnMouseMoved(this::onMouseMoved);
+        canvas.setOnMouseClicked(character::shoot);
         new Thread(character).start();
         draw(gc);
     }
