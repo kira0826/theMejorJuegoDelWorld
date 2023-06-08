@@ -14,11 +14,10 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public  class Enemy extends Avatar implements Runnable, Initializable {
-
+    private Random random = new Random();
     public TypeEnemy typeEnemy;
     public Enemy(double x, double y, double width, double height, double life){
         super(x, y, width, height, life);
-        Random random = new Random();
         typeEnemy = TypeEnemy.values()[random.nextInt(TypeEnemy.values().length)];
 
     }
@@ -26,7 +25,7 @@ public  class Enemy extends Avatar implements Runnable, Initializable {
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run1.png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
+        gc.drawImage(new Image("file:src/main/resources/images/Character/run/player-run"+random.nextInt(3)+".png"),position.getX() - (width / 2), position.getY() - (height/2), width, height);
     }
 
     @Override
