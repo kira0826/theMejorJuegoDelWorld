@@ -12,6 +12,7 @@ import com.example.integrativetask_ii_ced.model.map.GameMap;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.Random;
@@ -30,12 +31,13 @@ public class Level implements Initializable, Runnable, Drawable {
     private Random random = new Random();
     private Gun[] weapons = new Gun[2];
     private PressurePlate pressurePlate = null;
+    private Image image;
 
-    public Level(){
+    public Level(String url){
+        image = new Image("file:src/main/resources/images/background/"+url+".png");
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
         gameMap.creatingNotNavigableObstacles();
         gameMap.establishGraphMapRepresentationForMinimumPaths();
-        gameMap.assignDestructibleBoxes();
         for (int i = 0; i < gameMap.getMapGuide().get(0).size(); i++) {
             if (gameMap.getMapGuide().get(0).get(i).isNavigable()){
                 HelloController.character.getPosition().setX(gameMap.getMapGuide().get(0).get(i).getPosition().getX());
@@ -110,7 +112,7 @@ public class Level implements Initializable, Runnable, Drawable {
     }
     @Override
     public void draw(GraphicsContext gc){
-
+        gc.drawImage(image,0,0,1200,720);
         for (int i = 0; i < getEnemyBullets().size(); i++){
             getEnemyBullets().get(i).draw(gc);
         }
@@ -140,7 +142,7 @@ public class Level implements Initializable, Runnable, Drawable {
         int positionY = 0;
         int positionX = 0;
 
-        while (counter <= 1){
+        while (counter <= 0){
             while(true){
 
                 positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
