@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HelloController implements Initializable, Drawable{
 
-    private final Image image = new Image("file:src/main/resources/images/background.jpg");
+    private final Image image = new Image("file:src /main/resources/images/background.jpg");
 
     @FXML
     private Canvas canvas;
