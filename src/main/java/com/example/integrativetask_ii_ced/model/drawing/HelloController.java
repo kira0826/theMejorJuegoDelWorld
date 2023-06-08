@@ -30,7 +30,7 @@ public class HelloController implements Initializable, Drawable{
     private Canvas canvas;
 
     public GraphicsContext gc;
-    private int counterlvls =0;
+    private int counterlvls = 1;
     public static Player character = new Player(0,0, 60,60,3);
     public static ArrayList<Level> levels = new ArrayList<>();
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
@@ -40,7 +40,7 @@ public class HelloController implements Initializable, Drawable{
         canvas.setCursor(customCursor);
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
-        levels.add(new Level());
+        levels.add(new Level("back"+counterlvls));
         levels.get(0).generateEnemies();
         counterlvls++;
         canvas.setOnKeyPressed(character::pressKey);
@@ -81,7 +81,7 @@ public class HelloController implements Initializable, Drawable{
                         if (counterlvls > 3 ){
                             //win
                         } else {
-                            levels.set(0, new Level());
+                            levels.set(0, new Level("back"+counterlvls));
                             levels.get(0).generateEnemies();
                             counterlvls++;
                         }
