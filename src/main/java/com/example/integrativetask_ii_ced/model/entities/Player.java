@@ -1,11 +1,14 @@
 package com.example.integrativetask_ii_ced.model.entities;
 
 import com.example.integrativetask_ii_ced.model.drawing.HelloController;
+import com.example.integrativetask_ii_ced.model.drawing.Vector;
+import com.example.integrativetask_ii_ced.model.entities.objects.functional.Bullet;
 import com.example.integrativetask_ii_ced.model.levels.Level;
 import com.example.integrativetask_ii_ced.model.map.MapNode;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 
 public class Player extends Avatar implements Runnable {
@@ -84,41 +87,31 @@ public class Player extends Avatar implements Runnable {
 
     public void movement(){
         if ( keyA ){
-            /**hitBox.refreshHitBox((position.getX()-3)-(width/2), position.getY()-(height/2), (position.getX()-3)+(width/2), position.getY()+(height/2));
-            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
-                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
+            hitBox.refreshHitBox((position.getX()-3)-(width/2), position.getY()-(height/2), (position.getX()-3)+(width/2), position.getY()+(height/2));
+            if ( HelloController.levels.get(0).getGameMap().mapCollision(this.hitBox)
+                    || HelloController.levels.get(0).getGameMap().mapLimit(hitBox)) return;
             position.setX(position.getX()-3);
         }
         if ( keyW ){
-            /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-3-(height/2), position.getX()+(width/2), position.getY()-3+(height/2));
-            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
-                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
+            hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-3-(height/2), position.getX()+(width/2), position.getY()-3+(height/2));
+            if (  HelloController.levels.get(0).getGameMap().mapCollision(this.hitBox)
+                    || HelloController.levels.get(0).getGameMap().mapLimit(hitBox)) return;
             position.setY(position.getY()-3);
         }
         if ( keyS ){
-            /**hitBox.refreshHitBox(position.getX()-(width/2), position.getY()+3-(height/2), position.getX()+(width/2), position.getY()+3+(height/2));
-            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
-                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
+            hitBox.refreshHitBox(position.getX()-(width/2), position.getY()+3-(height/2), position.getX()+(width/2), position.getY()+3+(height/2));
+            if (HelloController.levels.get(0).getGameMap().mapCollision(this.hitBox)
+                    || HelloController.levels.get(0).getGameMap().mapLimit(hitBox)) return;
             position.setY(position.getY()+3);
         }
         if ( keyD ){
-            /**hitBox.refreshHitBox((position.getX()+3)-(width/2), position.getY()-(height/2), (position.getX()+3)+(width/2), position.getY()+(height/2));
-            if ( colission() || HelloController.getGameMap().mapCollision(this.hitBox)
-                    || HelloController.getGameMap().mapLimit(hitBox)) return;*/
+            hitBox.refreshHitBox((position.getX()+3)-(width/2), position.getY()-(height/2), (position.getX()+3)+(width/2), position.getY()+(height/2));
+            if (HelloController.levels.get(0).getGameMap().mapCollision(this.hitBox)
+                    || HelloController.levels.get(0).getGameMap().mapLimit(hitBox)) return;
             position.setX(position.getX()+3);
         }
         hitBox.refreshHitBox(position.getX(), position.getY(), position.getX(), position.getY());
     }
-
-    /**
-    private boolean colission() {
-        if (hitBox.comparePosition(HelloController.finalBoss.getHitBox())) {
-            hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
-            return true;
-        }
-        return false;
-    }
-     */
 
 
     public void pressKey(KeyEvent event){
@@ -184,5 +177,15 @@ public class Player extends Avatar implements Runnable {
 
     public void setMapNodeAssociated(MapNode mapNodeAssociated) {
         this.mapNodeAssociated = mapNodeAssociated;
+    }
+
+    public void shoot(MouseEvent event){
+        double diffX = event.getX() - HelloController.character.getPosition().getX();
+        double diffY = event.getY() - HelloController.character.getPosition().getY();
+        Vector diff = new Vector(diffX, diffY);
+        diff.normalize();
+        diff.setMag(10);
+        Bullet bullet = new Bullet(position.getX(), position.getY(), 10, 10, 1, diff, 25);
+        HelloController.levels.get(0).bullets.add(bullet);
     }
 }
