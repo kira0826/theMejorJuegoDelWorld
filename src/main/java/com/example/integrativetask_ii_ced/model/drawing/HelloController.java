@@ -29,7 +29,6 @@ public class HelloController implements Initializable, Drawable{
     @FXML
     private Canvas canvas;
 
-
     public GraphicsContext gc;
     public static Player character = new Player(0,0, 60,60,20000);
     public static ArrayList<Level> levels = new ArrayList<>();

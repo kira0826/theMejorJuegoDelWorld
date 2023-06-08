@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameMap implements Drawable {
 
     private ArrayList<ArrayList<MapNode>> mapGuide;
-     private AdjencyListGraph<Coordinate> graph;
+    private AdjencyListGraph<Coordinate> graph;
 
     private double width;
     private double height;
