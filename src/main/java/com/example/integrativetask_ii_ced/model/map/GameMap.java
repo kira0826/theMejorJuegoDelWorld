@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameMap implements Drawable {
 
     private ArrayList<ArrayList<MapNode>> mapGuide;
-     private AdjencyListGraph<Coordinate> graph;
+    private AdjencyListGraph<Coordinate> graph;
 
     private double width;
     private double height;
@@ -83,7 +83,7 @@ public class GameMap implements Drawable {
                 xPosition+= nodeSize ;
 
                 MapNode node =  new MapNode(xPosition, yPosition, true, true);
-                new Thread(node).start();
+
                 getMapGuide().get(i).add(node);
             }
         }
@@ -309,4 +309,11 @@ public class GameMap implements Drawable {
         this.chunkSize = chunkSize;
     }
 
+    public CopyOnWriteArrayList<MapNode> getNodeNoNavigable() {
+        return nodeNoNavigable;
+    }
+
+    public void setNodeNoNavigable(CopyOnWriteArrayList<MapNode> nodeNoNavigable) {
+        this.nodeNoNavigable = nodeNoNavigable;
+    }
 }

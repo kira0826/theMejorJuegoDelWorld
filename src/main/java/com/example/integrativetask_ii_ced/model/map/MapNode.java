@@ -7,10 +7,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class MapNode extends Obstacle implements Drawable , Runnable{
+public class MapNode extends Obstacle implements Drawable{
 
     boolean navigable;
-    private Image[] design;
+    private Image design;
 
     private  Boolean isDestructable;
 
@@ -18,7 +18,9 @@ public class MapNode extends Obstacle implements Drawable , Runnable{
     public MapNode(double x, double y, boolean navigable, boolean isDestructable) {
         super(x, y);
         this.navigable = navigable;
-        this.isDestructable = isDestructable;
+
+        design = new Image("file:src/main/resources/images/Cajita.png");
+
     }
 
     public MapNode(double x, double y) {
@@ -32,7 +34,7 @@ public class MapNode extends Obstacle implements Drawable , Runnable{
     public void draw(GraphicsContext gc) {
         if (isNavigable()) return;
         gc.setFill(Color.BLUE);
-        gc.fillRect(position.getX() - (width / 2), position.getY() - (height/2), getWidth(), getHeight());
+        gc.drawImage(design, position.getX() - (width / 2), position.getY() - (height/2), getWidth(), getHeight());
         gc.strokeRect(hitBox.getX0(), hitBox.getY0(), width, height);
     }
 
@@ -44,26 +46,13 @@ public class MapNode extends Obstacle implements Drawable , Runnable{
         this.navigable = navigable;
     }
 
-    public Image[] getDesign() {
+    public Image getDesign() {
         return design;
     }
 
-    public void setDesign(Image[] design) {
+    public void setDesign(Image design) {
         this.design = design;
     }
 
-    @Override
-    public void run() {
-        while (true){
-            if(this.isDestructable){
-                for (int i = 0; i < HelloController.levels.get(0).getBullets().size(); i++) {
-                    if (HelloController.levels.get(0).getBullets().get(i).getHitBox().comparePosition(this.hitBox)){
-                        HelloController.levels.get(0).getBullets().remove(i);
-                        setNavigable(true);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+
 }
