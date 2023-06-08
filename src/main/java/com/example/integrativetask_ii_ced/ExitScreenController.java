@@ -1,10 +1,14 @@
 package com.example.integrativetask_ii_ced;
 
+import com.example.integrativetask_ii_ced.model.drawing.HelloController;
+import com.example.integrativetask_ii_ced.model.entities.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class ExitScreenController {
 
@@ -22,6 +26,8 @@ public class ExitScreenController {
     @FXML
     public void play(ActionEvent event) {
         HelloApplication.openWindow("startingPage.fxml");
+        HelloController.character = new Player(0,0, 60,60,3);
+        HelloController.levels = new ArrayList<>();
         closeWindow(event);
     }
 

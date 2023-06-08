@@ -25,15 +25,18 @@ public class Level implements Initializable, Runnable, Drawable {
     private CopyOnWriteArrayList<Bullet> enemyBullets = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bullet> avatarBullets = new CopyOnWriteArrayList<>();
 
-    public GameMap gameMap = new GameMap(1200,720, 80,3);
+    public GameMap gameMap;
     public boolean isFinished = false;
-    public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
+    public CopyOnWriteArrayList<Enemy> enemies;
     private Random random = new Random();
-    private Gun[] weapons = new Gun[2];
+    private Gun[] weapons;
     private PressurePlate pressurePlate = null;
     private Image image;
 
     public Level(String url){
+         weapons = new Gun[2];
+        enemies = new CopyOnWriteArrayList<>();
+        gameMap = new GameMap(1200,720, 80,3);
         image = new Image("file:src/main/resources/images/background/"+url+".png");
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
         gameMap.creatingNotNavigableObstacles();

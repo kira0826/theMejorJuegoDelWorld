@@ -9,12 +9,10 @@ import com.example.integrativetask_ii_ced.model.entities.objects.functional.Pres
 import com.example.integrativetask_ii_ced.model.levels.Level;
 import com.example.integrativetask_ii_ced.model.map.GameMap;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -25,7 +23,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.spi.AbstractResourceBundleProvider;
 
 public class HelloController implements Initializable, Drawable{
 
@@ -35,18 +32,22 @@ public class HelloController implements Initializable, Drawable{
     private Canvas canvas;
 
     public GraphicsContext gc;
+    private int counterlvls;
     public static Player character;
-    public static ArrayList<Level> levels = new ArrayList<>();
+    public static ArrayList<Level> levels;
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
 
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        counterlvls = 1;
+        levels = new ArrayList<>();
         character = new Player(0,0, 60,60,3);
         canvas.setCursor(customCursor);
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
-        levels.add(new Level());
+        levels.add(new Level("back"+counterlvls));
         levels.get(0).generateEnemies();
+        counterlvls++;
         canvas.setOnKeyPressed(character::pressKey);
         canvas.setOnKeyReleased(character::releasedKey);
         canvas.setOnMouseMoved(this::onMouseMoved);
@@ -55,15 +56,18 @@ public class HelloController implements Initializable, Drawable{
         draw(gc);
     }
 
+    private boolean flag = true;
     @Override
     public void draw(GraphicsContext gc) {
         Thread h = new Thread(() -> {
-            while (character.getLife() > 0) {
+
+            while (character.getLife() >0 && flag) {
                 Platform.runLater(() -> {
 
                     gc.setFill(Color.WHITE);
                     gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
                     levels.get(0).draw(gc);
+
 
 
                     // Fuera del mapa
@@ -80,8 +84,19 @@ public class HelloController implements Initializable, Drawable{
                             i--;
                         }
                     }
+                    if ( levels.get(0).isFinished ){
+                        if (counterlvls > 3 ){
+                            flag = false;
+                            Stage stage = (Stage) canvas.getScene().getWindow();
+                            stage.close();
+                            HelloApplication.openWindow("exitScreen.fxml");
+                        } else {
+                            levels.set(0, new Level("back"+counterlvls));
+                            levels.get(0).generateEnemies();
+                            counterlvls++;
+                        }
+                    }
                     // Colision con nodos no navegables
-
                     for (int i = 0; i < levels.get(0).getAvatarBullets().size(); i++) {
                         for (int j = 0; j < levels.get(0).getGameMap().getNodeNoNavigable().size(); j++){
                             if (levels.get(0).getAvatarBullets().get(i).getHitBox().comparePosition(levels.get(0).getGameMap().getNodeNoNavigable().get(j).getHitBox())){
@@ -134,21 +149,14 @@ public class HelloController implements Initializable, Drawable{
 
 
 
-
-                    if (character.getLife()<=0){
+                    character.draw(gc);
+                    if (character.getLife() <= 0){
                         Stage stage = (Stage) canvas.getScene().getWindow();
                         stage.close();
                         HelloApplication.openWindow("exitScreen.fxml");
-
                     }
-                    character.draw(gc);
-
-
-
                 });
                 character.movement();
-
-
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException e) {
@@ -157,7 +165,6 @@ public class HelloController implements Initializable, Drawable{
             }
         });
         h.start();
-
     }
 
     private void onMouseMoved(MouseEvent e) {
@@ -167,15 +174,6 @@ public class HelloController implements Initializable, Drawable{
         );
     }
 
-    @FXML
-    private void closeWindow(ActionEvent event) {
-
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-
-
-    }
 
 
     public Canvas getCanvas() {
