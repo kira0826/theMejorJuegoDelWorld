@@ -27,6 +27,7 @@ public class PressurePlate extends Obstacle {
         gc.drawImage(new Image("file:src/main/resources/images/Door.png"),position.getX()-(width/2), position.getY()-(height/2), width, height);
     }
 
+    //comentario
     public boolean isPressed() {
         return isPressed;
     }
