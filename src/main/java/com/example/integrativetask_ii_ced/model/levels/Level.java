@@ -22,7 +22,6 @@ public class Level implements Initializable, Runnable, Drawable {
     public boolean isFinished = false;
     public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
     private Random random = new Random();
-    
 
     public Level(){
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
@@ -35,8 +34,23 @@ public class Level implements Initializable, Runnable, Drawable {
                 break;
             }
         }
-        for (int i = 0; i< 10; i++){
-            enemies.add(new Enemy(500+random.nextInt(200), 500+random.nextInt(200), 60, 60, 20000));
+
+        int counter  = 0;
+        int positionY = 0;
+        int positionX = 0;
+
+        while (counter <= 7){
+            while(true){
+
+                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
+                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
+
+                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
+                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
+                    counter++;
+                    break;
+                }
+            }
         }
 
     }
