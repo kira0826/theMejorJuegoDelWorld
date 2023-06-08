@@ -3,6 +3,8 @@ package com.example.integrativetask_ii_ced.model.levels;
 import com.example.integrativetask_ii_ced.model.drawing.Drawable;
 import com.example.integrativetask_ii_ced.model.drawing.HelloController;
 import com.example.integrativetask_ii_ced.model.entities.Player;
+import com.example.integrativetask_ii_ced.model.entities.gun.Gun;
+import com.example.integrativetask_ii_ced.model.entities.gun.TypeGun;
 import com.example.integrativetask_ii_ced.model.entities.mob.Enemy;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.Bullet;
 import com.example.integrativetask_ii_ced.model.entities.objects.functional.PressurePlate;
@@ -22,6 +24,7 @@ public class Level implements Initializable, Runnable, Drawable {
     public boolean isFinished = false;
     public CopyOnWriteArrayList<Enemy> enemies = new CopyOnWriteArrayList<>();
     private Random random = new Random();
+    private Gun[] weapons = new Gun[2];
 
     public Level(){
         gameMap.initialFillingOfMapWithNodesAndCoordinates();
@@ -35,6 +38,45 @@ public class Level implements Initializable, Runnable, Drawable {
             }
         }
 
+<<<<<<< HEAD
+=======
+        int counter  = 0;
+        int positionY = 0;
+        int positionX = 0;
+
+        while (counter <= 7){
+            while(true){
+
+                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
+                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
+
+                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
+                    enemies.add(new Enemy(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(), 60, 60, 20000));
+                    counter++;
+                    break;
+                }
+            }
+        }
+
+        int counter1  = 0;
+        int positionY1 = 0;
+        int positionX1 = 0;
+
+        while (counter1 <= 1){
+            while(true){
+
+                positionY = (int)Math.floor(random.nextInt(720)/gameMap.getNodeSize());
+                positionX = (int)Math.floor(random.nextInt(1200)/gameMap.getNodeSize());
+
+                if (gameMap.getMapGuide().get(positionY).get(positionX).isNavigable()){
+                    weapons[counter1] = new Gun(gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getX(),gameMap.getMapGuide().get(positionY).get(positionX).getPosition().getY(),80,80, TypeGun.values()[counter1]);
+                    counter1++;
+                    break;
+                }
+            }
+        }
+
+>>>>>>> sebas
     }
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
@@ -58,6 +100,10 @@ public class Level implements Initializable, Runnable, Drawable {
         }
         for (int i = 0; i < enemies.size(); i++){
             enemies.get(i).draw(gc);
+        }
+
+        for (int i = 0; i < weapons.length; i++) {
+            weapons[i].draw(gc);
         }
     }
 

@@ -20,5 +20,7 @@ module com.example.integrativetask_ii_ced {
     exports com.example.integrativetask_ii_ced.structure.narytree;
     exports com.example.integrativetask_ii_ced.model.map;
     opens com.example.integrativetask_ii_ced.model.map to javafx.fxml;
+    exports com.example.integrativetask_ii_ced.model.entities.gun;
+    opens com.example.integrativetask_ii_ced.model.entities.gun to javafx.fxml;
 
 }
