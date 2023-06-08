@@ -30,7 +30,7 @@ public class HelloController implements Initializable, Drawable{
     private Canvas canvas;
 
     public GraphicsContext gc;
-    public static Player character = new Player(0,0, 60,60,20000);
+    public static Player character = new Player(0,0, 60,60,3);
     public static ArrayList<Level> levels = new ArrayList<>();
     private final Cursor customCursor = new ImageCursor(new Image("file:src/main/resources/images/Cursor/nt_normal.png"));
 
@@ -70,9 +70,6 @@ public class HelloController implements Initializable, Drawable{
         });
         h.start();
     }
-
-
-
 
     private void onMouseMoved(MouseEvent e) {
         double relativePosition = e.getX()-character.getPosition().getX();

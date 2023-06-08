@@ -23,6 +23,9 @@ public class Player extends Avatar implements Runnable {
     private Image[] run;
 
     private Image[] died;
+    private Image[] runShoot;
+    private Image[] idleShoot;
+    private Image[] viewLife;
     private int frame = 0;
 
     private boolean isFacingRight = true;
@@ -53,6 +56,21 @@ public class Player extends Avatar implements Runnable {
             String uri = "file:src/main/resources/images/Character/died/player-died"+i+".png";
             died[i-1] = new Image(uri);
         }
+        runShoot = new Image[6];
+        for(int i=1 ; i<=6 ; i++) {
+            String uri = "file:src/main/resources/images/Character/pistol/player-run-shoott"+i+".png";
+            runShoot[i-1] = new Image(uri);
+        }
+        idleShoot = new Image[3];
+        for(int i=1 ; i<=3 ; i++) {
+            String uri = "file:src/main/resources/images/Character/shoot/player-shoot"+i+".png";
+            idleShoot[i-1] = new Image(uri);
+        }
+        viewLife = new Image[2];
+        for(int i=1 ; i<=2 ; i++) {
+            String uri = "file:src/main/resources/images/Character/life/heart"+(i-1)+".png";
+            viewLife[i-1] = new Image(uri);
+        }
     }
 
     @Override
@@ -62,7 +80,27 @@ public class Player extends Avatar implements Runnable {
             return;
         }
         hitBox.refreshHitBox(position.getX()-(width/2), position.getY()-(height/2), position.getX()+(width/2), position.getY()+(height/2));
-        gc.drawImage((isMoving() ? run[frame] : idle[frame]), isFacingRight ? position.getX() - (width / 2) : position.getX() + (width / 2), position.getY() - (width / 2), isFacingRight ? width : -width, height);
+        gc.drawImage((isMoving() ? (gun != null? runShoot[frame]: run[frame]) : (gun != null? idleShoot[2]:idle[frame])), isFacingRight ? position.getX() - (width / 2) : position.getX() + (width / 2), position.getY() - (width / 2), isFacingRight ? width : -width, height);
+        // drawLife
+        if(life == 3.0){
+
+            gc.drawImage(viewLife[0], 1050, 10, 70, 70);
+            gc.drawImage(viewLife[0], 960, 10, 70, 70);
+            gc.drawImage(viewLife[0], 870, 10, 70, 70);
+        } else if ( life == 2.0 ){
+            gc.drawImage(viewLife[0],1050,  10, 70, 70);
+            gc.drawImage(viewLife[0],960,  10, 70, 70);
+            gc.drawImage(viewLife[1],870, 10 , 70, 70);
+        } else if ( life == 1.0 ){
+            gc.drawImage(viewLife[0],1050, 10 , 70, 70);
+            gc.drawImage(viewLife[1],960, 10 , 70, 70);
+            gc.drawImage(viewLife[1],870, 10 , 70, 70);
+        } else if ( life == 0.0 ){
+            System.out.println("Game Over");
+            gc.drawImage(viewLife[1], 1050, 10, 70, 70);
+            gc.drawImage(viewLife[1], 960, 10, 70, 70);
+            gc.drawImage(viewLife[1], 870, 10, 70, 70);
+        }
     }
 
     @Override
