@@ -83,7 +83,7 @@ public class GameMap implements Drawable {
             for (int j = 0; j < width/nodeSize ; j++) {
                 xPosition+= nodeSize ;
 
-                MapNode node =  new MapNode(xPosition, yPosition, true, true);
+                MapNode node =  new MapNode(xPosition, yPosition,  true);
 
                 getMapGuide().get(i).add(node);
             }
